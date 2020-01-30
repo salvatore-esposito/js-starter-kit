@@ -6,6 +6,7 @@ services:
       context: .
       args:
         user: ${USER}
+    image: salvio/js-starter-kit
     container_name: js-laravel-mix-starter-kit
     env_file: .docker-env
     volumes:
