@@ -40,6 +40,7 @@ mix.js('src/js/app.js', 'dist/app.js')
    .browserSync({
      proxy : "",
      server : ".",
+     open: false,
      files: ['src/**/*']
    })
    .disableNotifications();
