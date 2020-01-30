@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  webapp:
+    build:
+      context: .
+      args:
+        user: ${USER}
+    container_name: js-laravel-mix-starter-kit
+    env_file: .docker-env
+    volumes:
+       - $PWD/src:/home/${USER}/src
+    command: npm run watch
