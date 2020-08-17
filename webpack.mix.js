@@ -1,5 +1,7 @@
 let mix = require('laravel-mix');
-let htmlWebpackPlugin = require('html-webpack-plugin');
+let HtmlWebpackPlugin = require('html-webpack-plugin');
+let HandlebarsWebpackPlugin = require("handlebars-webpack-plugin");
+const process =require('process');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,39 +13,30 @@ let htmlWebpackPlugin = require('html-webpack-plugin');
  |
  */
 
-class HTMLhbs {
-  register(source, dest) {
-         this.source = source;
-         this.dest = dest;
-     }
-
-    webpackPlugins() {
-        return new htmlWebpackPlugin({
-            template: this.source,
-            filename: this.dest
-        });
-    }
-}
-
-mix.extend('hbs', new HTMLhbs());
-
+/*
 mix.override(config => {
   config.entry = Object.keys(config.entry).reduce((acc, key) => {
     acc[key.replace(/^\//, "")] = config.entry[key];
     return acc;
   }, {});
 });
+*/
+mix.webpackConfig({ devtool: "inline-source-map" });
 
-mix.js('src/js/app.js', 'dist/app.js')
-   .sass('src/scss/app.scss', 'dist/app.css')
-   .hbs('src/template/index.hbs', 'index.html')
-   .browserSync({
-     proxy : "",
-     server : ".",
-     open: false,
-     files: ['src/**/*']
-   })
-   .disableNotifications();
+mix.browserSync({
+  proxy : "",
+  server : ".",
+  open: false,
+  files: ['src/**/*', './index.html'],
+  watchOptions: {
+    usePolling: true,
+   awaitWriteFinish: true
+  }
+}).disableNotifications();
+mix.js('./src/js/app.js', './dist/app.js').sourceMaps();
+mix.sass('./src/scss/app.scss', './dist/app.css').sourceMaps();
+
+
 
 // Full API
 // mix.js(src, output);
